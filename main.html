@@ -1,19 +1,79 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Audio</title>
-    <style>
-       
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Audio</title>
+  <style>
+    body {
+      height: 100vh;
+      width: 100vw;
+      align-content: center;
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      width: 100%;
+      height: 50%;
+      background-color: #A164DF;
+      display: flex;
+      justify-content: space-evenly;
+      align-items: center;
+    }
+    .btn {
+      height: 40px;
+      width: 80px;
+      color: antiquewhite;
+      background-color: #663399;
+    }
+    #buttons {
+      height: 100%;
+      width: 100vw;
+      display: flex;
+      align-items: center;
+    }
+  </style>
 </head>
 <body>
-    <section id="buttons">
+  <section id="buttons">
     <div class="container"></div>
-    </section>
-    <script>
-      
-    </script>
+  </section>
+
+  <script>
+    const container = document.querySelector(".container");
+    const temp = document.createDocumentFragment();
+    const sounds = ["audio1", "audio2", "audio3", "audio4", "audio5", "stop"];
+
+    for (let sound of sounds) {
+      createbutton(sound);
+    }
+    container.appendChild(temp);
+
+    function createbutton(sound) {
+      const btn = document.createElement("button");
+      btn.innerText = sound;
+      btn.id = sound;
+      btn.className = "btn";
+      temp.appendChild(btn);
+      btn.addEventListener("click", stopsound);
+      btn.addEventListener("click", () => playsound(btn));
+    }
+
+    let playlist = {};
+
+    function playsound(btn) {
+      console.log(btn.id);
+      if (btn.id === "stop") return;
+      const audio = new Audio(`sounds/${btn.id}.mp3`);
+      playlist[btn.id] = audio;
+      audio.play();
+    }
+
+    function stopsound() {
+      for (let key in playlist) {
+        playlist[key].pause();
+      }
+    }
+  </script>
 </body>
 </html>
